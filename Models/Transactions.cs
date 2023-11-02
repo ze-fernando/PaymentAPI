@@ -1,6 +1,7 @@
 public class Transactions{
 
-    public double Value { get; set; }
+    public int Id { get; set; }
+    public double Amount { get; set; }
     public string? Description { get; set; }
     public Method Method { get; set; }
     public int CarNumber { get; set; }
