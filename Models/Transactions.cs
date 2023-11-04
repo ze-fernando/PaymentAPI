@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace PaymentAPI.Models
 {
     public class Transactions
@@ -11,6 +13,7 @@ namespace PaymentAPI.Models
         public string? Validation { get; set; }
         public int Cvv { get; set; }
 
+        [JsonIgnore]
         public ICollection<Payble>? Payble { get; set; }
     }
 }

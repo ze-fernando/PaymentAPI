@@ -6,36 +6,42 @@ namespace PaymentAPI.Controllers
 {
     [ApiController]
     [Route("v1")]
-    public class TrasanctionController : ControllerBase
-    {
+    public class TrasanctionController : ControllerBase{
+
         [HttpPost("cash-in")]
-        public Payble CreateTransaction([FromBody] Transactions transaction)
-        {
+        public Payble CreateTransaction([FromBody] Transactions transaction){
+
+            Payble pay;
             string[]? card = transaction.CardNumber?.Split(' ');
             transaction.CardNumber = card?[3];
 
-            if (transaction.Method != "debt")
-            {
-                var pay = new Payble
-                {
+            if (transaction.Method != "debt"){
+
+                pay = new Payble{
                     TransactionId = transaction.Id,
                     Amount = transaction.Amount * 0.95,
                     Status = "waiting_funds",
                     DatePayment = DateTime.Now.AddDays(30).ToString("dd/MM/yyyy HH:mm")
                 };
-                return pay;
             }
-            else
-            {
-                var pay = new Payble
-                {
+
+            else{
+
+                pay = new Payble{
                     TransactionId = transaction.Id,
                     Amount = transaction.Amount,
                     Status = "paid"
                 };
-                return pay;
             }
 
+            using (var db = new PaymentContext()){
+
+                db.Transactions.Add(transaction);
+                db.Payble.Add(pay);
+                db.SaveChanges();
+            }
+
+                return pay;
         }
     }
 }
