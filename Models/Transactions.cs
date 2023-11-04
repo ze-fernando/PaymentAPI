@@ -10,5 +10,7 @@ namespace PaymentAPI.Models
         public string? Name { get; set; }
         public string? Validation { get; set; }
         public int Cvv { get; set; }
+
+        public ICollection<Payble>? Payble { get; set; }
     }
 }

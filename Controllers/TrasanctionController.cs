@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PaymentAPI.Context;
 using PaymentAPI.Models;
 
 namespace PaymentAPI.Controllers
@@ -17,7 +18,7 @@ namespace PaymentAPI.Controllers
             {
                 var pay = new Payble
                 {
-                    TransactionID = transaction.Id,
+                    TransactionId = transaction.Id,
                     Amount = transaction.Amount * 0.95,
                     Status = "waiting_funds",
                     DatePayment = DateTime.Now.AddDays(30).ToString("dd/MM/yyyy HH:mm")
@@ -28,7 +29,7 @@ namespace PaymentAPI.Controllers
             {
                 var pay = new Payble
                 {
-                    TransactionID = transaction.Id,
+                    TransactionId = transaction.Id,
                     Amount = transaction.Amount,
                     Status = "paid"
                 };
