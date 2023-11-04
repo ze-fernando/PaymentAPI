@@ -1,13 +1,16 @@
+using System.Globalization;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
+    
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-/*if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(options =>
@@ -15,7 +18,12 @@ var app = builder.Build();
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "PaymentAPI");
         options.RoutePrefix = string.Empty;
     });
-}*/
+}
+
+var cultureInfo = new CultureInfo("pt-BR");
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
 
 app.UseAuthorization();
 
