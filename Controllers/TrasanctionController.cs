@@ -49,5 +49,24 @@ namespace PaymentAPI.Controllers
 
                 return pay;
         }
+
+    
+        [HttpGet("transactions")]
+        public List<Transactions> AllTransactions()
+        {
+            List<Transactions> transactions;
+            using (var database = new PaymentContext())
+            {
+                transactions = database.Transactions.ToList();
+            }
+
+            return transactions;
+        }
+    
+        /*[HttpGet("transactions/{card}")]
+        public List<Transactions> TransactionByCard([FromRoute] string card)
+        {
+
+        }*/
     }
 }
