@@ -36,9 +36,7 @@ namespace PaymentAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TransactionId");
-
-                    b.ToTable("payble");
+                    b.ToTable("Payble");
                 });
 
             modelBuilder.Entity("PaymentAPI.Models.Transactions", b =>
@@ -56,6 +54,9 @@ namespace PaymentAPI.Migrations
                     b.Property<int>("Cvv")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("DateValidation")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
@@ -65,28 +66,9 @@ namespace PaymentAPI.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Validation")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
-                    b.ToTable("transactions");
-                });
-
-            modelBuilder.Entity("PaymentAPI.Models.Payble", b =>
-                {
-                    b.HasOne("PaymentAPI.Models.Transactions", "Transaction")
-                        .WithMany("Payble")
-                        .HasForeignKey("TransactionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Transaction");
-                });
-
-            modelBuilder.Entity("PaymentAPI.Models.Transactions", b =>
-                {
-                    b.Navigation("Payble");
+                    b.ToTable("Transactions");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,13 +12,5 @@ namespace PaymentAPI.Context
         {
             optionsBuilder.UseSqlite("Data Source=dbPayment.db");
         }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-        modelBuilder.Entity<Payble>()
-            .HasOne(p => p.Transaction)
-            .WithMany(t => t.Payble)
-            .HasForeignKey(p => p.TransactionId);
-        }
     }
 }

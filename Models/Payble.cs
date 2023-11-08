@@ -1,7 +1,8 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace PaymentAPI.Models
-{
+namespace PaymentAPI.Models{
+
     public class Payble
     {
         public int Id { get; set; }
@@ -9,8 +10,5 @@ namespace PaymentAPI.Models
         public double Amount { get; set; }
         public string? DatePayment { get; set; } = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
         public int TransactionId { get; set; }
-        
-        [JsonIgnore]
-        public Transactions? Transaction { get; set; }
     }
 }

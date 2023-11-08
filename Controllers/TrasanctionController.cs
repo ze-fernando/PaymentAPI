@@ -8,40 +8,41 @@ namespace PaymentAPI.Controllers
     [Route("v1")]
     public class TrasanctionController : ControllerBase
     {
- 
         [HttpPost("cash-in")]
         public Payble CreateTransaction([FromBody] Transactions transaction)
         {
-
             Payble pay;
-            string[]? card = transaction.CardNumber?.Split(' ');
-            transaction.CardNumber = card?[3];
-
-            if (transaction.Method != "debt")
-            {
-                pay = new Payble
-                {
-                    TransactionId = transaction.Id,
-                    Amount = transaction.Amount * 0.95,
-                    Status = "waiting_funds",
-                    DatePayment = DateTime.Now.AddDays(30).ToString("dd/MM/yyyy HH:mm")
-                };
-            }
-
-            else
-            {
-                pay = new Payble
-                {
-                    TransactionId = transaction.Id,
-                    Amount = transaction.Amount,
-                    Status = "paid"
-                };
-            }
-
             using (var db = new PaymentContext())
             {
+                string status, date;
+                double amount;
+
+                if (transaction.Method == "debt")
+                {
+                    amount = transaction.Amount;
+                    status = "paid";
+                    date = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+                }
+                else
+                {
+                    amount = transaction.Amount * 0.95;
+                    status = "waiting_funds";
+                    date = DateTime.Now.AddDays(30).ToString("dd/MM/yyyy HH:mm");
+                }
+
+                string[]? card = transaction.CardNumber?.Split(' ');
+                transaction.CardNumber = card?[3];
 
                 db.Transactions.Add(transaction);
+                db.SaveChanges();
+
+                pay = new Payble{
+                    Status = status,
+                    Amount = amount,
+                    DatePayment = date,
+                    TransactionId = transaction.Id
+                };
+
                 db.Payble.Add(pay);
                 db.SaveChanges();
             }
