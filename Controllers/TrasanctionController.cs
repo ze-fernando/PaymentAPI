@@ -19,7 +19,7 @@ namespace PaymentAPI.Controllers
 
                 if (transaction.Method == "debt")
                 {
-                    amount = transaction.Amount;
+                    amount = transaction.Amount * 0.97;
                     status = "paid";
                     date = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
                 }
